@@ -49,14 +49,13 @@ namespace ml_mictoggle
                         if (m_buttonOldState != l_buttonNewState)
                         {
                             m_buttonOldState = l_buttonNewState;
-
-                            if (!m_buttonOldState)
+                            if (m_buttonOldState)
                             {
                                 long l_tick = System.DateTime.Now.Ticks;
                                 if ((l_tick - m_lastToggleTick) < m_toggleDelay)
                                 {
                                     m_toggleState = !m_toggleState;
-                                    if (m_toggleState == true) DefaultTalkController.Method_Public_Static_Void_5();
+                                    if (m_toggleState) DefaultTalkController.Method_Public_Static_Void_5();
                                     else DefaultTalkController.Method_Public_Static_Void_4();
 
                                     m_lastToggleTick = l_tick - (m_toggleDelay * 2L);
