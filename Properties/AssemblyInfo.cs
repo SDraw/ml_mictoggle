@@ -9,5 +9,5 @@ using MelonLoader;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: MelonModInfo(typeof(ml_mictoggle.MCT), "Mic toggle", "1.0.0", "SDraw")]
+[assembly: MelonModInfo(typeof(ml_mictoggle.MCT), "MicToggle", "1.0.0", "SDraw")]
 [assembly: MelonModGame("VRChat", "VRChat")]
