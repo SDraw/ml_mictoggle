@@ -72,13 +72,13 @@ namespace ml_mictoggle
 
         public override void OnApplicationStart()
         {
-            MelonLoader.ModPrefs.RegisterCategory("MCT", "Microphone fast VR toggle");
-            MelonLoader.ModPrefs.RegisterPrefBool("MCT", "MicToggle", true, "Mic fast toggle");
+            MelonLoader.MelonPrefs.RegisterCategory("MCT", "Microphone fast VR toggle");
+            MelonLoader.MelonPrefs.RegisterBool("MCT", "MicToggle", true, "Mic fast toggle");
         }
 
         public override void OnModSettingsApplied()
         {
-            m_toggleEnabled = MelonLoader.ModPrefs.GetBool("MCT", "MicToggle");
+            m_toggleEnabled = MelonLoader.MelonPrefs.GetBool("MCT", "MicToggle");
         }
 
         public override void OnUpdate()
@@ -104,8 +104,8 @@ namespace ml_mictoggle
                                 if ((l_tick - m_lastToggleTick) < m_toggleDelay)
                                 {
                                     m_micState = !m_micState;
-                                    if (m_micState) DefaultTalkController.Method_Public_Static_Void_5();
-                                    else DefaultTalkController.Method_Public_Static_Void_4();
+                                    if (m_micState) DefaultTalkController.Method_Public_Static_Void_0();
+                                    else DefaultTalkController.Method_Public_Static_Void_1();
 
                                     m_lastToggleTick = l_tick - (m_toggleDelay * 2L);
                                 }
