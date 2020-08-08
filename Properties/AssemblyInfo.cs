@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("ml_mictoggle")]
 [assembly: ComVisible(false)]
 [assembly: Guid("80e80bff-3fc0-4a59-92e6-55d14540df52")]
-[assembly: AssemblyVersion("1.0.1")]
-[assembly: AssemblyFileVersion("1.0.1")]
+[assembly: AssemblyVersion("1.0.2")]
+[assembly: AssemblyFileVersion("1.0.2")]
 
-[assembly: MelonLoader.MelonModInfo(typeof(ml_mictoggle.MCT), "MicToggle", "1.0.1", "SDraw")]
-[assembly: MelonLoader.MelonModGame("VRChat", "VRChat")]
+[assembly: MelonLoader.MelonInfo(typeof(ml_mictoggle.MCT), "MicToggle", "1.0.2", "SDraw")]
+[assembly: MelonLoader.MelonGame("VRChat", "VRChat")]
