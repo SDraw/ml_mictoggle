@@ -104,8 +104,8 @@ namespace ml_mictoggle
                                 if ((l_tick - m_lastToggleTick) < m_toggleDelay)
                                 {
                                     m_micState = !m_micState;
-                                    if (m_micState) DefaultTalkController.Method_Public_Static_Void_PDM_0();
-                                    else DefaultTalkController.Method_Public_Static_Void_PDM_1();
+                                    if (m_micState) DefaultTalkController.Method_Public_Static_Void_PDM_6();
+                                    else DefaultTalkController.Method_Public_Static_Void_PDM_5();
 
                                     m_lastToggleTick = l_tick - (m_toggleDelay * 2L);
                                 }
