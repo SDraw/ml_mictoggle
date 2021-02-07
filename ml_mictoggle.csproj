@@ -44,8 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Games\Steam\steamapps\common\VRChat\MelonLoader\Managed\Il2Cppmscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="MelonLoader.ModHandler">
-      <HintPath>vendor\MelonLoader\MelonLoader.ModHandler.dll</HintPath>
+    <Reference Include="MelonLoader, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Games\Steam\steamapps\common\VRChat\MelonLoader\MelonLoader.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
