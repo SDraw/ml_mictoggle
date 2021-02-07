@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ml_mictoggle
 {
@@ -12,7 +9,9 @@ namespace ml_mictoggle
 
         private const long m_toggleDelay = 5000000L;
 
-        private bool m_toggleEnabled = true;
+        private bool m_enabled = true;
+        private int m_hand = 0;
+
         private bool m_buttonOldState = false;
         private long m_lastToggleTick = 0L;
         private bool m_micState = false;
@@ -41,17 +40,6 @@ namespace ml_mictoggle
                 }
             }
 
-            l_input = VRCInputManager.field_Private_Static_Dictionary_2_EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique_VRCInputProcessor_0[VRCInputManager.EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique.Oculus];
-            if (l_input)
-            {
-                VRCInputProcessorTouch l_castInput = l_input.Cast<VRCInputProcessorTouch>();
-                if (l_castInput)
-                {
-                    m_controllerManager = l_castInput.field_Private_SteamVR_ControllerManager_0;
-                    return;
-                }
-            }
-
             l_input = VRCInputManager.field_Private_Static_Dictionary_2_EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique_VRCInputProcessor_0[VRCInputManager.EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique.Index];
             if (l_input)
             {
@@ -66,24 +54,50 @@ namespace ml_mictoggle
 
         private void FindTrackedController()
         {
-            m_trackedController = m_controllerManager.left.GetComponent<SteamVR_TrackedController>();
-            if (!m_trackedController) m_trackedController = m_controllerManager.left.AddComponent<SteamVR_TrackedController>();
+            switch (m_hand)
+            {
+                case 0:
+                default:
+                    m_trackedController = m_controllerManager.field_Public_GameObject_0?.GetComponent<SteamVR_TrackedController>();
+                    break;
+                case 1:
+                    m_trackedController = m_controllerManager.field_Public_GameObject_1?.GetComponent<SteamVR_TrackedController>();
+                    break;
+            }
+            if (!m_trackedController)
+            {
+                switch (m_hand)
+                {
+                    case 0:
+                    default:
+                        m_trackedController = m_controllerManager.field_Public_GameObject_0?.AddComponent<SteamVR_TrackedController>();
+                        break;
+                    case 1:
+                        m_trackedController = m_controllerManager.field_Public_GameObject_1?.AddComponent<SteamVR_TrackedController>();
+                        break;
+                }
+            }
         }
 
         public override void OnApplicationStart()
         {
-            MelonLoader.MelonPrefs.RegisterCategory("MCT", "Microphone fast VR toggle");
-            MelonLoader.MelonPrefs.RegisterBool("MCT", "MicToggle", true, "Mic fast toggle");
+            MelonLoader.MelonPreferences.CreateCategory("MCT", "Microphone fast VR toggle");
+            MelonLoader.MelonPreferences.CreateEntry("MCT", "MicToggle", true, "Enable toggling");
+            MelonLoader.MelonPreferences.CreateEntry("MCT", "MicHand", 0, "Set toggle hand (0 - left, 1 - right)");
         }
 
-        public override void OnModSettingsApplied()
+        public override void OnPreferencesSaved()
         {
-            m_toggleEnabled = MelonLoader.MelonPrefs.GetBool("MCT", "MicToggle");
+            m_enabled = MelonLoader.MelonPreferences.GetEntryValue<bool>("MCT", "MicToggle");
+            m_hand = MelonLoader.MelonPreferences.GetEntryValue<int>("MCT", "MicHand");
+            m_hand = Math.Min(Math.Max(m_hand, 0), 1);
+            m_trackedController = null;
+            m_buttonOldState = false;
         }
 
         public override void OnUpdate()
         {
-            if (m_toggleEnabled)
+            if (m_enabled)
             {
                 if (!m_controllerManager) FindControllerManager();
 
@@ -95,17 +109,17 @@ namespace ml_mictoggle
                     {
                         m_trackedController.Update();
 
-                        if (m_buttonOldState != m_trackedController.menuPressed)
+                        if (m_buttonOldState != m_trackedController.field_Public_Boolean_2)
                         {
-                            m_buttonOldState = m_trackedController.menuPressed;
+                            m_buttonOldState = m_trackedController.field_Public_Boolean_2;
                             if (m_buttonOldState)
                             {
                                 long l_tick = System.DateTime.Now.Ticks;
                                 if ((l_tick - m_lastToggleTick) < m_toggleDelay)
                                 {
                                     m_micState = !m_micState;
-                                    if (m_micState) DefaultTalkController.Method_Public_Static_Void_PDM_6();
-                                    else DefaultTalkController.Method_Public_Static_Void_PDM_5();
+                                    if (m_micState) DefaultTalkController.Method_Public_Static_Void_PDM_1();
+                                    else DefaultTalkController.Method_Public_Static_Void_PDM_2();
 
                                     m_lastToggleTick = l_tick - (m_toggleDelay * 2L);
                                 }
