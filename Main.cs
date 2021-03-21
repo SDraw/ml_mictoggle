@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine;
 
 namespace ml_mictoggle
 {
@@ -14,14 +14,13 @@ namespace ml_mictoggle
 
         private bool m_buttonOldState = false;
         private long m_lastToggleTick = 0L;
-        private bool m_micState = false;
 
         private void FindControllerManager()
         {
             VRCInputProcessor l_input = VRCInputManager.field_Private_Static_Dictionary_2_EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique_VRCInputProcessor_0[VRCInputManager.EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique.Vive];
             if (l_input)
             {
-                VRCInputProcessorVive l_castInput = l_input.Cast<VRCInputProcessorVive>();
+                VRCInputProcessorVive l_castInput = l_input.TryCast<VRCInputProcessorVive>();
                 if (l_castInput)
                 {
                     m_controllerManager = l_castInput.field_Private_SteamVR_ControllerManager_0;
@@ -32,7 +31,7 @@ namespace ml_mictoggle
             l_input = VRCInputManager.field_Private_Static_Dictionary_2_EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique_VRCInputProcessor_0[VRCInputManager.EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique.ViveAdvanced];
             if (l_input)
             {
-                VRCInputProcessorViveAdvanced l_castInput = l_input.Cast<VRCInputProcessorViveAdvanced>();
+                VRCInputProcessorViveAdvanced l_castInput = l_input.TryCast<VRCInputProcessorViveAdvanced>();
                 if (l_castInput)
                 {
                     m_controllerManager = l_castInput.field_Private_SteamVR_ControllerManager_0;
@@ -43,7 +42,7 @@ namespace ml_mictoggle
             l_input = VRCInputManager.field_Private_Static_Dictionary_2_EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique_VRCInputProcessor_0[VRCInputManager.EnumNPublicSealedvaKeMoCoGaViOcViDaWaUnique.Index];
             if (l_input)
             {
-                VRCInputProcessorIndex l_castInput = l_input.Cast<VRCInputProcessorIndex>();
+                VRCInputProcessorIndex l_castInput = l_input.TryCast<VRCInputProcessorIndex>();
                 if (l_castInput)
                 {
                     m_controllerManager = l_castInput.field_Private_SteamVR_ControllerManager_0;
@@ -84,13 +83,15 @@ namespace ml_mictoggle
             MelonLoader.MelonPreferences.CreateCategory("MCT", "Microphone fast VR toggle");
             MelonLoader.MelonPreferences.CreateEntry("MCT", "MicToggle", true, "Enable toggling");
             MelonLoader.MelonPreferences.CreateEntry("MCT", "MicHand", 0, "Set toggle hand (0 - left, 1 - right)");
+
+            OnPreferencesSaved();
         }
 
         public override void OnPreferencesSaved()
         {
             m_enabled = MelonLoader.MelonPreferences.GetEntryValue<bool>("MCT", "MicToggle");
             m_hand = MelonLoader.MelonPreferences.GetEntryValue<int>("MCT", "MicHand");
-            m_hand = Math.Min(Math.Max(m_hand, 0), 1);
+            m_hand = Mathf.Clamp(m_hand, 0, 1);
             m_trackedController = null;
             m_buttonOldState = false;
         }
@@ -117,8 +118,8 @@ namespace ml_mictoggle
                                 long l_tick = System.DateTime.Now.Ticks;
                                 if ((l_tick - m_lastToggleTick) < m_toggleDelay)
                                 {
-                                    m_micState = !m_micState;
-                                    DefaultTalkController.Method_Public_Static_Void_Boolean_0(m_micState);
+                                    // DefaultTalkController.field_Private_Static_Boolean_0 - mute state. true - muted, false - not muted.
+                                    DefaultTalkController.Method_Public_Static_Void_Boolean_0(!DefaultTalkController.field_Private_Static_Boolean_0);
 
                                     m_lastToggleTick = l_tick - (m_toggleDelay * 2L);
                                 }
