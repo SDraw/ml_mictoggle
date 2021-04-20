@@ -118,7 +118,7 @@ namespace ml_mictoggle
                                 long l_tick = System.DateTime.Now.Ticks;
                                 if ((l_tick - m_lastToggleTick) < m_toggleDelay)
                                 {
-                                    DefaultTalkController.Method_Public_Static_Void_0();
+                                    DefaultTalkController.Method_Public_Static_Void_1();
                                     m_lastToggleTick = l_tick - (m_toggleDelay * 2L);
                                 }
                                 else m_lastToggleTick = l_tick;

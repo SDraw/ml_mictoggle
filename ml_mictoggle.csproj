@@ -89,7 +89,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy /y $(TargetPath) "F:\Games\Steam\steamapps\common\VRChat\Mods\ml_mictoggle.dll"</PostBuildEvent>
+    <PostBuildEvent>copy /y $(TargetPath) "C:\Games\Steam\steamapps\common\VRChat\Mods\ml_mictoggle.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
